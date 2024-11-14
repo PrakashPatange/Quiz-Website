@@ -1,0 +1,34 @@
+body{
+    background-color: black;
+}
+legend{
+    color: white;
+}
+
+#button{
+    color: rgb(226, 26, 26);
+    background-color: rgb(250, 1, 38);
+}
+header{
+    text-decoration: underline;
+}
+header, section{
+    padding: 170px;
+    border-style:solid ;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: url(background.jpg) ;
+}
+section{
+    text-align: center;
+}
+label{
+    color: white;
+}
+input{
+    background-color: black;
+    color: white;
+}
+span{
+    color: white;
+}

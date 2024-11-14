@@ -1,0 +1,97 @@
+body{
+    background-color: aquamarine;
+}
+body:hover{
+    background-color: rgb(15, 15, 15);
+}
+.loginpage{
+    margin-top: 90px;
+    border-radius: 5%;
+    border: 100px solid rgb(12, 34, 231);
+    background-image: url(background1.jpg);
+    width: 400px;
+    height: 400px;
+    border: 2px solid black;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    padding: 40px;
+}
+.loginpage:hover{
+    box-shadow: 0px 0px  100px rgb(3, 251, 251);
+    transform: scale(1.2);
+    transition-duration: 2s;
+    transition-timing-function: ease-in-out;
+}
+
+h1{
+    color: white;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    text-decoration: underline;
+    border-radius: 10px;
+    margin-bottom: 50px;
+}
+
+.name{
+    color: white;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+input:hover{
+    box-shadow: 0px 0px 10px blueviolet ;
+    font-family: Tahoma, Geneva, Verdana, sans-serif;
+    border-radius: 10px;
+    width: 170px;
+    transition-property: width;
+    transition-duration: 3s;
+    transition-delay: 1s;
+    transition-timing-function: ease-in-out;
+
+}
+
+.email{
+    color: white;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.phone-no{
+    color: white;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.password{
+    color: white;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+button{
+    width: 30%;
+    height: 30px;
+    border-radius: 20px;
+    
+}
+button:hover{
+    cursor: pointer;
+    background-color: chartreuse;
+    box-shadow: 2px 2px 10px white;
+    
+}
+
+
+.leftside{
+    
+    text-align: left;
+    color: white;
+    direction: flex;
+}
+
+.rightside{
+    text-align: right;
+    
+}
+.new-acc{
+    border-radius: 30px;
+    border: 3px solid rgb(0, 0, 0);
+    background-color: white;
+    color: black;
+    text-decoration: none;
+}
