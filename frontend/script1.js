@@ -27,7 +27,7 @@ const questions = [
         ]
     },
     {
-        question: "If the binnary tree has 50 nodes then the number of edges are?",
+        question: "If the binary tree has 50 nodes then the number of edges are?",
         answers: [
             { text: "51", correct: false},
             { text: "55", correct: false},
@@ -57,7 +57,7 @@ const questions = [
         question: "AVL Tree is a?",
         answers: [
             { text: "binary tree", correct: false},
-            { text: "binnary search tree", correct: true},
+            { text: "binary search tree", correct: true},
             { text: "expression tree", correct: false},
             { text: "complete binary tree", correct: false},
         ]
@@ -72,7 +72,7 @@ const questions = [
         ]
     },
     {
-        question: "To perform file I/O operations,we must use which header file?",
+        question: "To perform file I/O operations, we must use which header file?",
         answers: [
             { text: "&lt; ifstream &gt;", correct: false},
             { text: "&lt; ofstream &gt;", correct: false},
@@ -90,91 +90,105 @@ const questions = [
         ]
     }
 ];
-const questionElement=document.getElementById("question");
-const answerButton=document.getElementById("answer-buttons");
-const nextButton=document.getElementById("next-btn");
+
+const questionElement = document.getElementById("question");
+const answerButton = document.getElementById("answer-buttons");
+const nextButton = document.getElementById("next-btn");
 let currentQuestionIndex = 0;
-let score=0;
-function StartQuiz(){
-    currentQuestionIndex=0;
-    score=0;
-    nextButton.innerHTML="Next";
+let score = 0;
+let userId = localStorage.getItem('userId'); // Assuming userId is stored in localStorage after login
+
+function StartQuiz() {
+    currentQuestionIndex = 0;
+    score = 0;
+    nextButton.innerHTML = "Next";
     showQuestion();
 }
-function showQuestion(){
-    resetState();
-    let currentQuestion=questions[currentQuestionIndex];
-    let questionNumber=currentQuestionIndex+1;
-    questionElement.innerHTML=questionNumber+". "+currentQuestion.question;
 
-    currentQuestion.answers.forEach(answer=>{
-        const button=document.createElement("button");//create a button
-        button.innerHTML=answer.text;//we will add the answer
-        button.classList.add("btn");//adding the class in the button
-        answerButton.appendChild(button);//display button inside the div answer-buttons
-        if(answer.correct){
-            button.dataset.correct=answer.correct;
+function showQuestion() {
+    resetState();
+    let currentQuestion = questions[currentQuestionIndex];
+    let questionNumber = currentQuestionIndex + 1;
+    questionElement.innerHTML = questionNumber + ". " + currentQuestion.question;
+
+    currentQuestion.answers.forEach(answer => {
+        const button = document.createElement("button"); // Create a button
+        button.innerHTML = answer.text; // We will add the answer
+        button.classList.add("btn"); // Adding the class in the button
+        answerButton.appendChild(button); // Display button inside the div answer-buttons
+        if (answer.correct) {
+            button.dataset.correct = answer.correct;
         }
-        button.addEventListener("click",selectAnswer);
+        button.addEventListener("click", selectAnswer);
     });
 }
-function resetState(){
-    nextButton.style.display="none";
-    while(answerButton.firstChild){
+
+function resetState() {
+    nextButton.style.display = "none";
+    while (answerButton.firstChild) {
         answerButton.removeChild(answerButton.firstChild);
     }
 }
-function selectAnswer(e){
-    const selectedBtn=e.target;//store the selected answer
-    const isCorrect=selectedBtn.dataset.correct==="true";//compare the selected button with true
-    if(isCorrect){
-        selectedBtn.classList.add("correct");//add className correct
+
+function selectAnswer(e) {
+    const selectedBtn = e.target; // Store the selected answer
+    const isCorrect = selectedBtn.dataset.correct === "true"; // Compare the selected button with true
+    if (isCorrect) {
+        selectedBtn.classList.add("correct"); // Add className correct
         score++;
+    } else {
+        selectedBtn.classList.add("incorrect"); // Add className incorrect
     }
-    else{
-        selectedBtn.classList.add("incorrect");//add className incorrect
-    }
-    Array.from(answerButton.children).forEach(button=>{//for each button will check the dataset if it is true will mark it green if it is false then it will be red and further marking is disbaled
-        if(button.dataset.correct==="true"){
+    Array.from(answerButton.children).forEach(button => { // For each button, will check the dataset if it is true will mark it green, if false then red, and further marking is disabled
+        if (button.dataset.correct === "true") {
             button.classList.add("correct");
         }
-        button.disabled=true;
+        button.disabled = true;
     });
-    nextButton.style.display="block";
+    nextButton.style.display = "block";
 }
-function showScore(){
+
+function showScore() {
     resetState();
-    questionElement.innerHTML=`You scored ${score} out of ${questions.length}!`;
-    nextButton.innerHTML="PLAY AGAIN";
-    nextButton.style.display="block";
+    questionElement.innerHTML = `You scored ${score} out of ${questions.length}!`;
+    nextButton.innerHTML = "PLAY AGAIN";
+    nextButton.style.display = "block";
+
+    // Send the score to the backend
+    fetch('http://localhost:3000/quiz', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            userId,  // Send the userId to identify the user
+            score    // Send the score
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Score stored successfully:', data);
+    })
+    .catch(error => {
+        console.error('Error storing score:', error);
+    });
 }
-function handleNextButton(){
+
+function handleNextButton() {
     currentQuestionIndex++;
-    if(currentQuestionIndex<questions.length){
+    if (currentQuestionIndex < questions.length) {
         showQuestion();
-    }
-    else{
+    } else {
         showScore();
     }
 }
 
-// btn.addEventListener("click",()=>{
-    
-// })
-const buttons = document.querySelectorAll('.btn');
-
-buttons.forEach(button => {
-  button.addEventListener('click', () => {
-    button.classList.toggle('clicked');
-  });
-});
-
-nextButton.addEventListener("click",()=>{
-    if(currentQuestionIndex< questions.length ) {
-    handleNextButton();
-    }
-    else{
+nextButton.addEventListener("click", () => {
+    if (currentQuestionIndex < questions.length) {
+        handleNextButton();
+    } else {
         StartQuiz();
     }
 });
+
 StartQuiz();
